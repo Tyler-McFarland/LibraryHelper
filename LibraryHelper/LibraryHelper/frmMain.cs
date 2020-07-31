@@ -13,6 +13,8 @@ namespace LibraryHelper
 {
     public partial class frmMain : Form
     {
+        public static char userType = 'n';
+
         public frmMain()
         {
             InitializeComponent();
@@ -28,34 +30,47 @@ namespace LibraryHelper
             {
                 MessageBox.Show("User doesn't exist, please try again");
             }
+            else
+            {
+                frmLibrary library = new frmLibrary();
+                this.Visible = false;
+                library.ShowDialog();
+                library.Activate();
+            }
         }
 
         private List<string> getUsernames() 
         {
-            if (!(File.Exists(@"C:\LibraryHelperFile\MyClassroom")))
+            if (!(File.Exists(@"C:\LibraryHelperFiles\MyClassroom.txt")))
             {
-                Directory.CreateDirectory(@"C:\LibraryHelperFile");
-                File.Create(@"C:\LibraryHelperFile\MyClassroom");
+                Directory.CreateDirectory(@"C:\LibraryHelperFiles");
+                File.Create(@"C:\LibraryHelperFiles\MyClassroom.txt");
             }
 
-            return File.ReadAllLines(@"C:\LibraryHelperFile\MyClassroom").ToList();
+            return File.ReadAllLines(@"C:\LibraryHelperFiles\MyClassroom.txt").ToList();
         }
 
         private bool Validate(List<string> usernames, string enteredUser)
         {
             if (usernames.Contains(enteredUser))
             {
+                userType = 's';
                 return true;
             }
             else
             {
                 if (enteredUser.StartsWith("*") && (enteredUser.Substring(1) == "kristen"))
                 {
-                    //this is the teacher
+                    userType = 't';
                     return true;
                 }
                 return false;
             }
+        }
+
+        private void frmMain_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
         }
     }
 }

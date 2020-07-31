@@ -73,6 +73,7 @@
             // 
             // frmMain
             // 
+            this.AcceptButton = this.btnSubmit;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
@@ -82,6 +83,7 @@
             this.Controls.Add(this.label1);
             this.Name = "frmMain";
             this.Text = "Library Helper";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmMain_FormClosed);
             this.ResumeLayout(false);
             this.PerformLayout();
 
