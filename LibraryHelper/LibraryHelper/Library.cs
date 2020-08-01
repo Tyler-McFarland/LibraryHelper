@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -14,6 +15,7 @@ namespace LibraryHelper
     public partial class frmLibrary : Form
     {
         private int currentImage = 0;
+        private bookData bookData = new bookData();
 
         public frmLibrary()
         {
@@ -23,6 +25,7 @@ namespace LibraryHelper
         private void frmLibrary_Load(object sender, EventArgs e)
         {
             loadImagesIntoList();
+            loadImageData();
         }
 
         private void loadImagesIntoList()
@@ -43,9 +46,14 @@ namespace LibraryHelper
             }
         }
 
-        public void loadImagesIntoImageBox()
+        private void loadImageData()
         {
-            
+            if (File.Exists(@"C:\LibraryHelperFiles\ImagesFolder\fileData.txt"))
+            {
+                JsonSerializer jsonSerializer = new JsonSerializer();
+                var json = File.ReadAllText(@"C:\LibraryHelperFiles\ImagesFolder\fileData.txt");
+                bookData = jsonSerializer.Deserialize<bookData>(json);
+            }
         }
 
         private void frmLibrary_FormClosed(object sender, FormClosedEventArgs e)
@@ -70,6 +78,12 @@ namespace LibraryHelper
                 picBook.Image = imgBooks.Images[currentImage];
               
             }
+        }
+
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
